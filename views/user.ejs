@@ -5,10 +5,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/f14e332891.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
-    <h1>User Page</h1>
+    <div class="user-infor-container">
+        <form METHOD="post" action="/users/create-user">
+            <div class="container">
+
+                <div class="row">
+                    <div class="mb-3 mt-3 col-6">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="col-6"></div>
+                    <div class="mb-3 col-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="col-6"></div>
+
+                    <div class="mb-3 col-6">
+                        <label class="username" for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <table class="table mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <% for(var i=0; i<listUsers.length; i++) {%>
+                <tr>
+                    <td>
+                        <%= listUsers[i].id %>
+                    </td>
+                    <td>
+                        <%= listUsers[i].username %>
+                    </td>
+                    <td>
+                        <%= listUsers[i].email%>
+                    </td>
+                    <td>
+                        <a href="" style="text-decoration: none;">
+                            <i class="fas fa-edit h4 mb-0 ms-3 text-success"></i>
+                        </a>
+                        <a href="" class="" style="text-decoration: none;">
+                            <i class="fa-solid fa-trash h4 mb-0 ms-3 text-success"></i>
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
 </body>
 
 </html>
