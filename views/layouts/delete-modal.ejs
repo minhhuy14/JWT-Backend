@@ -44,13 +44,10 @@
             data: data,
             success: function (res) {
                 if (res.success === true) {
-                    // showToast('Delete Status', res.message);
-                    // reloadPageOnToastHiden();
-                    // location.reload();
-
+                    window.location.reload();
                 }
                 else {
-                    // showToast('Delete Status', res.message);
+                    alert("Cannot delete due to server error !");
                 }
             }
         });
