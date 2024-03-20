@@ -57,7 +57,7 @@ const getAllUsers = async () => {
         // )
         let [rows, fields] = await connection.execute('SELECT * FROM Users');
 
-        console.log(rows);
+        // console.log(rows);
         return rows;
     }
     catch (err) {
@@ -66,8 +66,18 @@ const getAllUsers = async () => {
     }
 
 }
+
+const deleteUsers = async (id) => {
+    try {
+        const result = connection.query('DELETE FROM Users WHERE id=?', [id]);
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
 module.exports = {
     initializeConnection,
     createNewUser,
-    getAllUsers
+    getAllUsers,
+    deleteUsers
 }

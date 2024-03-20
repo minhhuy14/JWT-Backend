@@ -23,5 +23,5 @@ configViewEngine(app);
 initWebRouters(app);
 
 app.listen(PORT, () => {
-    console.log("JWT Backend Server is running on port " + PORT);
+    console.log(`JWT Backend Server is running on http://localhost:${PORT}`);
 })
