@@ -1,0 +1,84 @@
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit User Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
+                    <!-- Your form fields go here. For example: -->
+                    <div class="mb-3">
+                        <label for="userName" class="form-label" style="color: #000">User Name</label>
+                        <input type="text" class="form-control" id="userName" name="userName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userEmail" class="form-label" style="color: #000">userEmail</label>
+                        <!-- <textarea type="text" class="form-control" id="categoryDescription" name="categoryDescription"></textarea> -->
+                        <input type="email" class="form-control" id="userEmail" name="userEmail">
+                    </div>
+                    <!-- Add more form fields as needed -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let userId = 0;
+
+    const editModal = document.getElementById('editModal');
+    if (editModal) {
+        editModal.addEventListener('show.bs.modal', function (event) {
+            // Button that triggered the modal
+            const button = event.relatedTarget;
+            // Extract info from data-bs-* attributes
+            const userName = button.getAttribute('data-bs-userName');
+            const userEmail = button.getAttribute('data-bs-userEmail');
+            // Update the modal's content.
+            userId = button.getAttribute('data-bs-userId');
+            const modalTitle = editModal.querySelector('.modal-title');
+            const modalBodyUserName = editModal.querySelector('#userName');
+            const modalBodyUserEmail = editModal.querySelector('#userEmail');
+            // modalTitle.textContent = 'Edit Category';
+            modalBodyUserName.value = userName;
+            modalBodyUserEmail.value = userEmail;
+
+        });
+    }
+    const saveChanges = document.getElementById('saveChanges');
+    console.log(saveChanges);
+    saveChanges.addEventListener('click', function () {
+        console.log('clicked');
+        $('#editModal').modal('hide');
+        const userName = document.getElementById('userName').value;
+        const userEmail = document.getElementById('userEmail').value;
+        console.log(userName, userEmail);
+
+        const data = {
+            userName,
+            userId,
+            userEmail
+        }
+        console.log(data);
+        $.ajax({
+            url: '/users/edit-user',
+            type: 'POST',
+            data: data,
+            success: function (response) {
+                if (response.success === true) {
+                    showToast('Edit User Status', response.message);
+                    reloadPageOnToastHiden();
+                }
+                else {
+                    showToast('Edit User Status', response.message);
+                }
+            }
+        });
+    });
+</script>

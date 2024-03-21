@@ -88,9 +88,11 @@
                         <%= listUsers[i].email%>
                     </td>
                     <td>
-                        <a href="" style="text-decoration: none;">
-                            <i class="fas fa-edit h4 mb-0 ms-3 text-success"></i>
-                        </a>
+                        <button class="btn btn-sm btn-primary btn-edit" data-bs-toggle="modal"
+                            data-bs-target="#editModal" data-bs-userName="<%=listUsers[i].username%>"
+                            data-bs-userId="   <%= listUsers[i].id %>" data-bs-userEmail="<%= listUsers[i].email%>">
+                            <i class="fas fa-edit"></i>
+                        </button>
                         <button class="btn btn-sm btn-danger btn-delete" data-bs-toggle="modal"
                             data-bs-target="#deleteModal" data-bs-id="<%=listUsers[i].id%>">
                             <i class="fas fa-trash"></i>
@@ -101,7 +103,10 @@
         </tbody>
     </table>
 
-    <%- include('./layouts/delete-modal') %>
+    <%- include('./partials/toast-bootstrap')%>
+        <%- include('./partials/delete-modal')%>
+            <%- include('./partials/edit-user-modal')%>
+
 </body>
 <script>
     $(document).ready(function () {
