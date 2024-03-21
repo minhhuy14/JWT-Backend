@@ -44,10 +44,12 @@
             data: data,
             success: function (res) {
                 if (res.success === true) {
-                    window.location.reload();
+                    showToast('Delete User Status', res.message)
+                    reloadPageOnToastHidden();
                 }
                 else {
-                    alert("Cannot delete due to server error !");
+                    showToast('Delete User Status', res.message)
+
                 }
             }
         });

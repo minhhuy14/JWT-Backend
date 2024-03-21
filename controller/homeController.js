@@ -42,8 +42,14 @@ const handleDeleteUser = async (req, res) => {
     // console.log(req.param)
     const { id } = req.body;
     // console.log('ID ' + id);
-    await userService.deleteUsers(id);
-    res.json({ success: true, message: 'Delete user successfully!' });
+    let result = await userService.deleteUsers(id);
+    if (result) {
+        res.json({ success: true, message: 'Delete user successfully!' });
+    }
+    else {
+        res.json({ success: false, message: 'Error while deleting user!' });
+    }
+
 }
 module.exports = {
     handleHelloWorld,

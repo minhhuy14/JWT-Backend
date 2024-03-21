@@ -70,9 +70,11 @@ const getAllUsers = async () => {
 const deleteUsers = async (id) => {
     try {
         const result = connection.query('DELETE FROM Users WHERE id=?', [id]);
+        return true;
     }
     catch (err) {
         console.log(err);
+        return false;
     }
 }
 module.exports = {
