@@ -19,22 +19,15 @@ const handleCreateNewUser = (req, res) => {
     let password = req.body.password;
     let username = req.body.username;
 
-    // let hashPassword = bcrypt.hashSync(password, salt);
-    // console.log(hashPassword);
-    // try {
-    //     const result = connection.query(
-    //         'INSERT INTO Users(email, password,username) values (?,?,?)', [email, password, username]
-    //     );
-    //     // console.log(result);
+    let result = userService.createNewUser(email, password, username);
+    if (result) {
+        // res.json({ sucess: true, message: "Create new User successfully!" });
+        res.redirect('/user')
+    }
+    else {
+        res.json({ sucess: false, message: "Error while creating new user!" });
 
-    //     let check = bcrypt.compareSync(password, hashPassword);
-    //     console.log('Check pass ', check);
-
-    // } catch (err) {
-    //     console.log(err);
-    // }
-    userService.createNewUser(email, password, username);
-    return res.redirect('/user');
+    }
 }
 
 const handleDeleteUser = async (req, res) => {
@@ -51,9 +44,23 @@ const handleDeleteUser = async (req, res) => {
     }
 
 }
+
+const handleEditUser = async (req, res) => {
+    const { userId, userName, userEmail } = req.body;
+
+    let result = await userService.editUsers(userId, userName, userEmail);
+    if (result) {
+        res.json({ success: true, message: 'Edit user successfully!' });
+    }
+    else {
+        res.json({ success: false, message: 'Error while editing user!' });
+    }
+
+}
 module.exports = {
     handleHelloWorld,
     handleUserPage,
     handleCreateNewUser,
-    handleDeleteUser
+    handleDeleteUser,
+    handleEditUser
 }

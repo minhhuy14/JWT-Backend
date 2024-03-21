@@ -38,9 +38,11 @@ const createNewUser = (email, password, username) => {
 
         let check = bcrypt.compareSync(password, hashPass);
         console.log('Check pass ', check);
+        return true;
 
     } catch (err) {
         console.log(err);
+        return false;
     }
 }
 
@@ -77,9 +79,21 @@ const deleteUsers = async (id) => {
         return false;
     }
 }
+
+const editUsers = async (id, username, email) => {
+    try {
+        connection.query('UPDATE Users SET username=?, email=? WHERE id=?', [username, email, id]);
+        return true;
+    }
+    catch (err) {
+        console.log(err);
+        return false;
+    }
+}
 module.exports = {
     initializeConnection,
     createNewUser,
     getAllUsers,
-    deleteUsers
+    deleteUsers,
+    editUsers
 }
