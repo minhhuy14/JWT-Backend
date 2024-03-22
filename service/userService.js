@@ -6,6 +6,8 @@ const salt = bcrypt.genSaltSync(10);
 // Create the connection to database
 let connection;
 
+import db from '../models/';
+
 async function initializeConnection() {
     try {
         connection = await mysql.createConnection({
@@ -28,16 +30,22 @@ const hashUserPassword = (userPassword) => {
     return hashPassword;
 }
 
-const createNewUser = (email, password, username) => {
+const createNewUser = async (email, password, username) => {
     let hashPass = hashUserPassword(password);
     try {
-        const result = connection.query(
-            'INSERT INTO Users(email, password,username) values (?,?,?)', [email, hashPass, username]
-        );
-        // console.log(result);
+        // const result = connection.query(
+        //     'INSERT INTO Users(email, password,username) values (?,?,?)', [email, hashPass, username]
+        // );
+        // // console.log(result);
 
-        let check = bcrypt.compareSync(password, hashPass);
-        console.log('Check pass ', check);
+        // let check = bcrypt.compareSync(password, hashPass);
+        // console.log('Check pass ', check);
+        // return true;
+        await db.User.create({
+            username: username,
+            email: email,
+            password: hashPass
+        })
         return true;
 
     } catch (err) {
