@@ -3,7 +3,7 @@ import express from "express";
 require('dotenv').config();
 import configViewEngine from "./config/viewEngine";
 import initWebRouters from "./routes/web";
-
+// import connection from "./config/connectDB";
 const bodyParser = require('body-parser');
 
 
@@ -19,9 +19,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //config view engine
 configViewEngine(app);
 
+
+// //test connection db
+// connection()
+
 //init web routers
 initWebRouters(app);
 
 app.listen(PORT, () => {
     console.log(`JWT Backend Server is running on http://localhost:${PORT}`);
 })
+
+// const { createReadStream, readFileSync } = require('fs')
+
+// const { createServer } = require('http')
+
+// const server = createServer()
+
+// server.on('request', (req, res) => {
+//     const result = readFileSync('../record.aac');
+//     // result.pipe(res);
+//     res.end(result)
+// })
+
+// process.title = 'withStream'
+// console.log(process.pid)
+// server.listen(3000);

@@ -13,13 +13,13 @@ const handleUserPage = async (req, res) => {
     return res.render("user.ejs", { listUsers })
 }
 
-const handleCreateNewUser = (req, res) => {
+const handleCreateNewUser = async (req, res) => {
     // console.log(req.body);
     let email = req.body.email;
     let password = req.body.password;
     let username = req.body.username;
 
-    let result = userService.createNewUser(email, password, username);
+    let result = await userService.createNewUser(email, password, username);
     if (result) {
         // res.json({ sucess: true, message: "Create new User successfully!" });
         res.redirect('/user')
