@@ -69,6 +69,30 @@ const getAllUsers = async () => {
         //Version lastest sql
         // let [rows, fields] = await connection.execute('SELECT * FROM Users');
 
+
+        //Preparing for eager loading
+        let newUser = await db.User.findOne({
+            where: { id: 1 },
+            include: {
+                model: db.Group,
+                attributes: ['name', 'description'],
+
+            },
+            attributes: ['id', 'username', 'email'],
+            raw: true,
+            nest: true//Nhom thanh 1 object
+        })
+        console.log(newUser);
+
+        let roles = await db.Group.findAll({
+            where: { id: 1 },
+            include: { model: db.Role },
+            raw: true,
+            nest: true//Nhom thanh 1 object
+        })
+
+        console.log(roles);
+
         let users = [];
         users = await db.User.findAll();
 

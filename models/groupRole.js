@@ -15,12 +15,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Group_Role.init({
 
-    groupId: DataTypes.Integer,
+    groupId: DataTypes.INTEGER,
     roleId: DataTypes.INTEGER
 
   }, {
     sequelize,
-    modelName: 'GroupRole',
+    modelName: 'Group_Role',
   });
   return Group_Role;
 };
