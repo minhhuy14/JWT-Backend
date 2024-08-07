@@ -3,8 +3,11 @@ import express from "express";
 require('dotenv').config();
 import configViewEngine from "./config/viewEngine";
 import initWebRouters from "./routes/web";
+import initApiRouters from "./routes/api";
+import configCors from "./config/cors";
 // import connection from "./config/connectDB";
 const bodyParser = require('body-parser');
+
 
 
 
@@ -12,9 +15,12 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 8081
 
+//config CORS
+configCors(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 //config view engine
 configViewEngine(app);
@@ -25,7 +31,7 @@ configViewEngine(app);
 
 //init web routers
 initWebRouters(app);
-
+initApiRouters(app);
 app.listen(PORT, () => {
     console.log(`JWT Backend Server is running on http://localhost:${PORT}`);
 })
