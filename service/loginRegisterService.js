@@ -2,6 +2,7 @@
 import db from '../models/index'
 const bcrypt = require('bcryptjs');
 
+import { Op } from 'sequelize'
 const salt = bcrypt.genSaltSync(10);
 const checkEmailExist = async (userEmail) => {
     let user = await db.User.findOne({
@@ -66,12 +67,79 @@ const registerNewUser = async (rawUserData) => {
         console.log(e);
         return {
             EM: "Something wrongs in login register service",
-            EC: 1
+            EC: -1
         }
     }
 
 }
 
+const checkPassword = (inputPassword, hashPassword) => {
+    return bcrypt.compareSync(inputPassword, hashPassword);
+}
+
+const handleUserLogin = async (rawData) => {
+    try {
+
+        let user = await db.User.findOne({
+            where: {
+                [Op.or]: [
+                    {
+                        email: rawData.valueLogin
+                    },
+                    {
+                        phone: rawData.valueLogin
+                    }
+                ]
+            }
+        })
+        // console.log(">>>> Check user: ", user.get({ plain: true }));
+        // console.log(">>> Check user sequelize object: ", user);
+
+        if (user) {
+            let isCorrectPassword = checkPassword(rawData.password, user.password);
+            if (isCorrectPassword === true) {
+                return {
+                    EM: 'Password ok!',
+                    EC: 0,
+                    DT: ''
+                }
+            }
+        }
+
+        console.log(">>> Not found user with email/phone: ", rawData.valueLogin, "password: ", rawData.password);
+        return {
+            EM: 'Your email/phone number or password is incorrect!',
+            EC: 1,
+            DT: ''
+        }
+
+
+
+        // let isEmailExist = await checkEmailExist(rawData.email);
+        // let isPhoneNumberExist = await checkPhoneExist(rawData.phone);
+
+        // let isCorrectPassword = checkPassword
+        // if (isEmailExist === false) {
+        //     return {
+        //         EM: "The email is already exist",
+        //         EC: 1
+        //     }
+        // }
+        // if (isPhoneNumberExist === true) {
+        //     return {
+        //         EM: "The phone number is already exist",
+        //         EC: 1
+        //     }
+        // }
+    }
+    catch (e) {
+        console.log(e);
+        return {
+            EM: "Something wrongs in login service",
+            EC: -1
+        }
+    }
+}
 module.exports = {
-    registerNewUser
+    registerNewUser, handleUserLogin
 }
