@@ -9,8 +9,11 @@ const handleHelloWorld = (req, res) => {
 }
 
 const handleUserPage = async (req, res) => {
-    let listUsers = await userService.getAllUsers();
-    return res.render("user.ejs", { listUsers })
+    let { DT } = await userService.getAllUsers();
+    if (DT)
+        return res.render("user.ejs", { listUsers: DT })
+
+    return res.send(404);
 }
 
 const handleCreateNewUser = async (req, res) => {
