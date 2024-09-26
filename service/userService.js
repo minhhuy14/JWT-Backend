@@ -55,54 +55,81 @@ const createNewUser = async (email, password, username) => {
 }
 
 const getAllUsers = async () => {
+    let data = {
+        EM: '',
+        EC: '',
+        DT: ''
+    }
+
     try {
-        // let users = connection.query(
-        //     'SELECT * FROM Users',
-        //     function (err, result, fields) {
-        //         if (err) {
-        //             console.log(err);
-        //         }
-        //         console.log('Result Users: ', result);
-        //     }
-        // )
-
-        //Version lastest sql
-        // let [rows, fields] = await connection.execute('SELECT * FROM Users');
-
-
-        //Preparing for eager loading
-        let newUser = await db.User.findOne({
-            where: { id: 1 },
+        let users = await db.User.findAll({
             include: {
                 model: db.Group,
                 attributes: ['name', 'description'],
 
             },
             attributes: ['id', 'username', 'email'],
-            raw: true,
-            nest: true//Nhom thanh 1 object
-        })
-        console.log(newUser);
+        });
+        if (users) {
+            // let data = users.get({ plain: true });
+            return {
+                EM: 'Get data success',
+                EC: 0,
+                DT: users
+            }
+        }
+        else {
+            return {
+                EM: 'get data success',
+                EC: 0,
+                data: []
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: 'something wrongs with services',
+            EC: 1,
+            DT: []
+        }
+    }
 
-        let roles = await db.Group.findAll({
-            where: { id: 1 },
-            include: { model: db.Role },
-            raw: true,
-            nest: true//Nhom thanh 1 object
-        })
+}
 
-        console.log(roles);
+const getUserWithPagination = async (page, limit) => {
+    try {
+        let offset = (page - 1) * limit;
+        let { count, rows } = await db.User.findAndCountAll({
+            offset: offset,
+            limit: limit,
+            attributes: ['id', 'username', 'email'],
+            include: {
+                model: db.Group,
+                attributes: ['name', 'description'],
 
-        let users = [];
-        users = await db.User.findAll();
-
-        return users;
+            }
+        });
+        let totalPages = Math.ceil(count / limit);
+        let data = {
+            totalRows: count,
+            totalPages: totalPages,
+            users: rows
+        };
+        // console.log("raw data", data);
+        return {
+            EM: "Successfully",
+            EC: 0,
+            DT: data
+        }
     }
     catch (err) {
         console.log(err);
-        return null;
+        return {
+            EM: "Failed",
+            EC: 0,
+            DT: []
+        }
     }
-
 }
 
 const deleteUsers = async (id) => {
@@ -129,8 +156,8 @@ const editUsers = async (id, username, email) => {
                 id: id
             }
         });
-        console.log(res);
-        console.log(await getUserById(id));
+        // console.log(res);
+        // console.log(await getUserById(id));
         return true;
     }
     catch (err) {
@@ -153,6 +180,7 @@ module.exports = {
     initializeConnection,
     createNewUser,
     getAllUsers,
+    getUserWithPagination,
     deleteUsers,
     editUsers,
     getUserById
