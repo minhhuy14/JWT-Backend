@@ -8,10 +8,7 @@ const readUser = async (req, res) => {
         if (req.query.page && req.query.limit) {
             let page = +req.query.page;
             let limit = +req.query.limit;
-            console.log(">>>check data");
             let data = await userService.getUserWithPagination(page, limit);
-
-            console.log("Data pag: ", data);
             return res.status(200).json({
                 EM: data.EM,
                 EC: data.EC,
@@ -26,7 +23,6 @@ const readUser = async (req, res) => {
                 DT: data.DT//data
             })
         }
-        console.log("Check query ", req.query);
     }
     catch (error) {
         console.log(error);
@@ -62,10 +58,27 @@ const updateUser = (req, res) => {
 
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
 
+    try {
+        console.log(req.body.id);
+        const data = await userApiService.deleteUser(req.body.id);
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            data: data.DT
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EM: 'error from server',
+            EC: '-1',
+            DT: ''
+        })
+    }
 }
 
 module.exports = {
     readUser, createUser, updateUser, deleteUser
-}
+};

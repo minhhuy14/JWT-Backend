@@ -101,7 +101,13 @@ const getUserWithPagination = async (page, limit) => {
         let offset = (page - 1) * limit;
         let { count, rows } = await db.User.findAndCountAll({
             offset: offset,
-            limit: limit
+            limit: limit,
+            attributes: ['id', 'username', 'email'],
+            include: {
+                model: db.Group,
+                attributes: ['name', 'description'],
+
+            }
         });
         let totalPages = Math.ceil(count / limit);
         let data = {
@@ -109,7 +115,7 @@ const getUserWithPagination = async (page, limit) => {
             totalPages: totalPages,
             users: rows
         };
-        console.log("raw data", data);
+        // console.log("raw data", data);
         return {
             EM: "Successfully",
             EC: 0,
@@ -150,8 +156,8 @@ const editUsers = async (id, username, email) => {
                 id: id
             }
         });
-        console.log(res);
-        console.log(await getUserById(id));
+        // console.log(res);
+        // console.log(await getUserById(id));
         return true;
     }
     catch (err) {

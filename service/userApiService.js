@@ -32,13 +32,33 @@ const updateUser = async () => {
     }
 }
 
-const deleteUser = async () => {
+const deleteUser = async (id) => {
     try {
-        await db.User.delete({
+        let user = await db.User.findOne({
             where: { id: id }
         })
+        if (user) {
+            await user.destroy();
+            return {
+                EM: 'Delete user successfully!',
+                EC: 0,
+                data: []
+            }
+        }
+        else {
+            return {
+                EM: 'not found user',
+                EC: 0,
+                data: []
+            }
+        }
     } catch (e) {
         console.log(e);
+        return {
+            EM: 'error from service',
+            EC: 1,
+            data: []
+        }
     }
 }
 
