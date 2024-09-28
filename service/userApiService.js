@@ -3,12 +3,20 @@ import db from '../models/index'
 const createNewUser = async (data) => {
 
     try {
-        await db.User.createNewUser({
-
-        })
+        await db.User.create(data);
+        return {
+            EM: 'Create ok',
+            EC: 0,
+            DT: data.DT,
+        }
     }
     catch (e) {
         console.log(e);
+        return {
+            EM: 'Failure Create user',
+            EC: 1,
+            DT: [],
+        }
     }
 }
 

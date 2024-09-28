@@ -1,8 +1,6 @@
 import userApiService from '../service/userApiService'
 import userService from '../service/userService';
 const readUser = async (req, res) => {
-
-
     try {
 
         if (req.query.page && req.query.limit) {
@@ -34,9 +32,10 @@ const readUser = async (req, res) => {
     }
 }
 
-const createUser = async (req, res) => {
+const createNewUser = async (req, res) => {
     try {
-        let data = await loginRegisterService.handleUserLogin(req.body);
+        //validate
+        let data = await userApiService.createNewUser(req.body);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -80,5 +79,5 @@ const deleteUser = async (req, res) => {
 }
 
 module.exports = {
-    readUser, createUser, updateUser, deleteUser
+    readUser, createNewUser, updateUser, deleteUser
 };
