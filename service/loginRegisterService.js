@@ -90,9 +90,7 @@ const handleUserLogin = async (rawData) => {
                     }
                 ]
             }
-        })
-        // console.log(">>>> Check user: ", user.get({ plain: true }));
-        // console.log(">>> Check user sequelize object: ", user);
+        });
 
         if (user) {
             let isCorrectPassword = checkPassword(rawData.password, user.password);
@@ -117,24 +115,6 @@ const handleUserLogin = async (rawData) => {
             DT: ''
         }
 
-
-
-        // let isEmailExist = await checkEmailExist(rawData.email);
-        // let isPhoneNumberExist = await checkPhoneExist(rawData.phone);
-
-        // let isCorrectPassword = checkPassword
-        // if (isEmailExist === false) {
-        //     return {
-        //         EM: "The email is already exist",
-        //         EC: 1
-        //     }
-        // }
-        // if (isPhoneNumberExist === true) {
-        //     return {
-        //         EM: "The phone number is already exist",
-        //         EC: 1
-        //     }
-        // }
     }
     catch (e) {
         console.log(e);
@@ -145,5 +125,5 @@ const handleUserLogin = async (rawData) => {
     }
 }
 module.exports = {
-    registerNewUser, handleUserLogin
+    registerNewUser, handleUserLogin, hashUserPassword, checkEmailExist, checkPhoneExist
 }
