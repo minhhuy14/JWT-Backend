@@ -1,9 +1,16 @@
 
 import db from '../models/index'
-const bcrypt = require('bcryptjs');
 
+require("dotenv").config();
 import { Op } from 'sequelize'
+
+import { createJWT } from "../middleware/JWTAction";
+import { getGroupWithRoles } from "./jwtService";
+
+const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
+
+
 const checkEmailExist = async (userEmail) => {
     let user = await db.User.findOne({
         where: { email: userEmail }
@@ -55,7 +62,8 @@ const registerNewUser = async (rawUserData) => {
             email: rawUserData.email,
             username: rawUserData.username,
             password: hashPassword,
-            phone: rawUserData.phone
+            phone: rawUserData.phone,
+            groupId: process.env.DEFAULT_GROUP_ID
         })
 
         return {
@@ -83,10 +91,10 @@ const handleUserLogin = async (rawData) => {
             where: {
                 [Op.or]: [
                     {
-                        email: rawData.valueLogin
+                        email: rawData.email
                     },
                     {
-                        phone: rawData.valueLogin
+                        phone: rawData.password
                     }
                 ]
             }
@@ -95,10 +103,23 @@ const handleUserLogin = async (rawData) => {
         if (user) {
             let isCorrectPassword = checkPassword(rawData.password, user.password);
             if (isCorrectPassword === true) {
+                //let token
+
+                //test roles:
+                let roles = await getGroupWithRoles(user);
+                let payload = {
+                    email: user.email,
+                    groupWithRoles: roles,
+                    expiresIn: process.env.JWT_EXPIRES_IN
+                }
+                let token = createJWT(payload);
                 return {
                     EM: 'Login successfully!',
                     EC: 0,
-                    DT: ''
+                    DT: {
+                        accessToken: token,
+                        roles: roles
+                    }
                 }
             }
             return {
@@ -108,7 +129,7 @@ const handleUserLogin = async (rawData) => {
             }
         }
 
-        console.log(">>> Not found user with email/phone: ", rawData.valueLogin, "password: ", rawData.password);
+        console.log(">>> Not found user with email/phone: ", rawData.email, "password: ", rawData.password);
         return {
             EM: 'Your email/phone number or password is incorrect!',
             EC: 1,

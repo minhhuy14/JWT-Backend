@@ -32,8 +32,7 @@ configViewEngine(app);
 // //test connection db
 // connection()
 
-createJWT();
-verifyJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSHV5IiwiYWRkcmVzcyI6ImJydnQiLCJpYXQiOjE3Mjc2ODUzMjR9.rfCj8LgG0JrVYWqOnbe2vLdFAWNfmvNFMKO_pRRLEns");
+
 //init web routers
 initWebRouters(app);
 initApiRouters(app);
