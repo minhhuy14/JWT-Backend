@@ -1,15 +1,18 @@
 import express from "express";
 
 require('dotenv').config();
+
+
 import configViewEngine from "./config/viewEngine";
 import initWebRouters from "./routes/web";
 import initApiRouters from "./routes/api";
 import configCors from "./config/cors";
+
+import { createJWT, verifyJWT } from "./middleware/JWTAction";
+
+
 // import connection from "./config/connectDB";
 const bodyParser = require('body-parser');
-
-
-
 
 
 const app = express();
@@ -28,6 +31,7 @@ configViewEngine(app);
 
 // //test connection db
 // connection()
+
 
 //init web routers
 initWebRouters(app);
