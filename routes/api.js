@@ -14,10 +14,11 @@ const router = express.Router();
 
 const initApiRouters = (app) => {
 
+    router.all("*", checkUserJWT, checkUserPermission);
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
 
-    router.get("/user/read", checkUserJWT, checkUserPermission, userController.readUser);
+    router.get("/user/read", userController.readUser);
     router.post("/user/create", userController.createNewUser);
     router.put("/user/update", userController.updateUser);
     router.delete("/user/delete", userController.deleteUser);
