@@ -2,7 +2,7 @@ import userApiService from '../service/userApiService'
 import userService from '../service/userService';
 const readUser = async (req, res) => {
     try {
-
+        console.log('Req.user: ', req.user);
         if (req.query.page && req.query.limit) {
             let page = +req.query.page;
             let limit = +req.query.limit;

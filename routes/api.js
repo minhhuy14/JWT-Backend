@@ -2,21 +2,22 @@ import express from "express";
 import apiController from "../controller/apiController";
 import userController from "../controller/userController";
 
-import groupController from "../controller/groupController"
+import groupController from "../controller/groupController";
+
+import { checkUserJWT, checkUserPermission } from "../middleware/JWTAction";
 const router = express.Router();
 
 /**
  * 
  * @param {*} app 
  */
+
 const initApiRouters = (app) => {
 
-
-    router.get("/test-api", apiController.testApi);
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
 
-    router.get("/user/read", userController.readUser);
+    router.get("/user/read", checkUserJWT, checkUserPermission, userController.readUser);
     router.post("/user/create", userController.createNewUser);
     router.put("/user/update", userController.updateUser);
     router.delete("/user/delete", userController.deleteUser);
