@@ -8,7 +8,7 @@ const createJWT = (payload) => {
     let key = process.env.JWT_SECRET;
     let token = null;
     try {
-        token = jwt.sign(payload, key);
+        token = jwt.sign(payload, key,{  expiresIn: process.env.JWT_EXPIRES_IN});
         console.log("Token: ", token);
     } catch (error) {
         console.log(error);
@@ -41,6 +41,7 @@ const checkUserJWT = (req, res, next) => {
         console.log("decoded: ", decoded);
         if (decoded) {
             req.user = decoded;
+            req.token=token;
             next();
         }
         else {
@@ -62,7 +63,7 @@ const checkUserJWT = (req, res, next) => {
 }
 
 const checkUserPermission = (req, res, next) => {
-    if (nonSecurePath.includes(req.path))
+    if (nonSecurePath.includes(req.path)||req.path==="/account")
         return next();
     if (req.user) {
         let email = req.user.email;

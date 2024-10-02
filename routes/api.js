@@ -17,7 +17,7 @@ const initApiRouters = (app) => {
     router.all("*", checkUserJWT, checkUserPermission);
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
-
+    router.get("/account",userController.getUserAccount);
     router.get("/user/read", userController.readUser);
     router.post("/user/create", userController.createNewUser);
     router.put("/user/update", userController.updateUser);
