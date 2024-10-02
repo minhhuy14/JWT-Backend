@@ -35,8 +35,9 @@ const checkUserJWT = (req, res, next) => {
     if (nonSecurePath.includes(req.path))
         return next();
     let cookies = req.cookies;
-    if (cookies && cookies.jwt) {
-        let token = cookies.jwt;
+    const tokenFromHeader=extractToken(req);
+    if (cookies && cookies.jwt||tokenFromHeader) {
+        let token = cookies&&cookies.jwt?cookies.jwt:tokenFromHeader;
         let decoded = verifyJWT(token);
         console.log("decoded: ", decoded);
         if (decoded) {
@@ -53,13 +54,18 @@ const checkUserJWT = (req, res, next) => {
         }
         console.log("myJWT: ", cookies.jwt);
     }
-    else {
-        return res.status(401).json({
+    else return res.status(401).json({
             EC: -1,
             DT: '',
             EM: 'Not authenticated user'
         })
     }
+
+const extractToken =(req)=> {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        return req.headers.authorization.split(' ')[1];
+    } 
+    return null;
 }
 
 const checkUserPermission = (req, res, next) => {
@@ -91,6 +97,8 @@ const checkUserPermission = (req, res, next) => {
         }
     }
 }
+
+
 module.exports = {
     createJWT, verifyJWT, checkUserJWT, checkUserPermission
 }
