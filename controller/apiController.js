@@ -46,8 +46,6 @@ const handleLogin = async (req, res) => {
             //set cookie
             res.cookie("jwt", data.DT.accessToken, { httpOnly: true });
         }
-
-
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -63,6 +61,26 @@ const handleLogin = async (req, res) => {
         })
     }
 }
+
+const handleLogout=async (req,res)=>{
+    try {
+    res.clearCookie("jwt");
+    return res.status(200).json({
+        EM: "Clear cookie done!",
+        EC: 0,
+        DT: ''
+    })
+}
+catch (e) {
+    console.log(e);
+    return res.status(500).json({
+        EM: 'Logout failed!',
+        EC: '-1',
+        DT: '',//date
+    })
+}
+
+}
 module.exports = {
-    testApi, handleRegister, handleLogin
+    testApi, handleRegister, handleLogin, handleLogout
 }
