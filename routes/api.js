@@ -18,7 +18,7 @@ const initApiRouters = (app) => {
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
     router.post("/logout", apiController.handleLogout);
-    router.get("/account",userController.getUserAccount);
+    router.get("/account", userController.getUserAccount);
 
     //user routes
     router.get("/user/read", userController.readUser);
@@ -30,7 +30,7 @@ const initApiRouters = (app) => {
     router.get("/role/read", roleController.readRole);
     router.post("/role/create", roleController.createNewRole);
     router.put("/role/update", roleController.updateRole);
-    router.delete("/role/delete", roleController.updateRole);
+    router.delete("/role/delete", roleController.deleteRole);
 
     //group routes
     router.get("/group/read", groupController.getGroup);
