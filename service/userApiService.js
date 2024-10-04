@@ -1,6 +1,7 @@
 import db from '../models/index'
 
 import { checkEmailExist, checkPhoneExist, hashUserPassword } from './loginRegisterService'
+
 const createNewUser = async (data) => {
 
     try {
