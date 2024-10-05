@@ -3,7 +3,6 @@ import groupService from "../service/groupService"
 const getGroup = async (req, res) => {
     try {
         let data = await groupService.getGroups();
-        console.log("Call group api controller");
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

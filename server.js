@@ -41,29 +41,9 @@ initWebRouters(app);
 initApiRouters(app);
 
 app.use((req, res, next) => {
-    console.log(">>>check new request");
-    console.log("host: ", req.hostname);
-    console.log("path: ", req.path);
-    console.log("method: ", req.method);
     next();
 })
 
 app.listen(PORT, () => {
     console.log(`JWT Backend Server is running on http://localhost:${PORT}`);
 })
-
-// const { createReadStream, readFileSync } = require('fs')
-
-// const { createServer } = require('http')
-
-// const server = createServer()
-
-// server.on('request', (req, res) => {
-//     const result = readFileSync('../record.aac');
-//     // result.pipe(res);
-//     res.end(result)
-// })
-
-// process.title = 'withStream'
-// console.log(process.pid)
-// server.listen(3000);

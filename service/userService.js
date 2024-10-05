@@ -33,14 +33,7 @@ const hashUserPassword = (userPassword) => {
 const createNewUser = async (email, password, username) => {
     let hashPass = hashUserPassword(password);
     try {
-        // const result = connection.query(
-        //     'INSERT INTO Users(email, password,username) values (?,?,?)', [email, hashPass, username]
-        // );
-        // // console.log(result);
 
-        // let check = bcrypt.compareSync(password, hashPass);
-        // console.log('Check pass ', check);
-        // return true;
         await db.User.create({
             username: username,
             email: email,
@@ -152,14 +145,11 @@ const deleteUsers = async (id) => {
 
 const editUsers = async (id, username, email) => {
     try {
-        // connection.query('UPDATE Users SET username=?, email=? WHERE id=?', [username, email, id]);
         const res = await db.User.update({ username: username, email: email }, {
             where: {
                 id: id
             }
         });
-        // console.log(res);
-        // console.log(await getUserById(id));
         return true;
     }
     catch (err) {

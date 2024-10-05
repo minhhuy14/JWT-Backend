@@ -9,7 +9,6 @@ const createJWT = (payload) => {
     let token = null;
     try {
         token = jwt.sign(payload, key, { expiresIn: process.env.JWT_EXPIRES_IN });
-        console.log("Token: ", token);
     } catch (error) {
         console.log(error);
     }
@@ -39,7 +38,6 @@ const checkUserJWT = (req, res, next) => {
     if (cookies && cookies.jwt || tokenFromHeader) {
         let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader;
         let decoded = verifyJWT(token);
-        console.log("decoded: ", decoded);
         if (decoded) {
             req.user = decoded;
             req.token = token;
@@ -52,7 +50,6 @@ const checkUserJWT = (req, res, next) => {
                 EM: 'Not authenticated user'
             })
         }
-        console.log("myJWT: ", cookies.jwt);
     }
     else return res.status(401).json({
         EC: -1,
@@ -83,7 +80,7 @@ const checkUserPermission = (req, res, next) => {
                 EM: `You don't have permission to access this resource`
             })
         }
-        let canAccess = roles.some(item => item.url === currentUrl);
+        let canAccess = roles.some(item => item.url === currentUrl || currentUrl.includes(item.url));
         if (canAccess) {
             next();
         }

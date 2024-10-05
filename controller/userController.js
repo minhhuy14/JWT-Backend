@@ -2,7 +2,6 @@ import userApiService from '../service/userApiService'
 import userService from '../service/userService';
 const readUser = async (req, res) => {
     try {
-        console.log('Req.user: ', req.user);
         if (req.query.page && req.query.limit) {
             let page = +req.query.page;
             let limit = +req.query.limit;
@@ -95,13 +94,13 @@ const deleteUser = async (req, res) => {
     }
 }
 
-const getUserAccount=async (req,res)=>{
+const getUserAccount = async (req, res) => {
     return res.status(200).json({
-        EM:"ok",
-        EC:0,
-        DT:{
+        EM: "ok",
+        EC: 0,
+        DT: {
             accessToken: req.token,
-            groupWithRoles : req.user.roles,
+            groupWithRoles: req.user.roles,
             email: req.user.email,
             username: req.user.username
         }
@@ -109,5 +108,5 @@ const getUserAccount=async (req,res)=>{
 }
 
 module.exports = {
-    readUser, createNewUser, updateUser, deleteUser,getUserAccount
+    readUser, createNewUser, updateUser, deleteUser, getUserAccount
 };
