@@ -131,8 +131,6 @@ const handleUserLogin = async (rawData) => {
                 DT: ''
             }
         }
-
-        console.log(">>> Not found user with email/phone: ", rawData.email, "password: ", rawData.password);
         return {
             EM: 'Your email/phone number or password is incorrect!',
             EC: 1,

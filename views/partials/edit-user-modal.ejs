@@ -52,20 +52,16 @@
         });
     }
     const saveChanges = document.getElementById('saveChanges');
-    // console.log(saveChanges);
     saveChanges.addEventListener('click', function () {
-        console.log('clicked');
         $('#editModal').modal('hide');
         const userName = document.getElementById('userName').value;
         const userEmail = document.getElementById('userEmail').value;
-        console.log(userName, userEmail);
 
         const data = {
             userName,
             userId,
             userEmail
         }
-        console.log(data);
         $.ajax({
             url: '/users/edit-user',
             type: 'POST',

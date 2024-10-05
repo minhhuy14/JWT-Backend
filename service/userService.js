@@ -110,7 +110,6 @@ const getUserWithPagination = async (page, limit) => {
             totalPages: totalPages,
             users: rows
         };
-        // console.log("raw data", data);
         return {
             EM: "Successfully",
             EC: 0,

@@ -33,11 +33,9 @@
     const confirmBtn = document.getElementById('confirmBtn');
     confirmBtn.addEventListener('click', function () {
         $('#deleteModal').modal('hide');
-        console.log('Click confirm')
         const data = {
             id: userId
         };
-        console.log(data);
         $.ajax({
             url: '/users/delete-user/',
             method: 'POST',

@@ -66,7 +66,6 @@ const updateRole = async (req, res) => {
 const deleteRole = async (req, res) => {
 
     try {
-        console.log(req.body.id);
         const data = await roleApiService.deleteRole(req.body.id);
         return res.status(200).json({
             EM: data.EM,
