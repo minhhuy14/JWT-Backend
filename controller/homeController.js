@@ -17,14 +17,12 @@ const handleUserPage = async (req, res) => {
 }
 
 const handleCreateNewUser = async (req, res) => {
-    // console.log(req.body);
     let email = req.body.email;
     let password = req.body.password;
     let username = req.body.username;
 
     let result = await userService.createNewUser(email, password, username);
     if (result) {
-        // res.json({ sucess: true, message: "Create new User successfully!" });
         res.redirect('/user')
     }
     else {
@@ -34,10 +32,7 @@ const handleCreateNewUser = async (req, res) => {
 }
 
 const handleDeleteUser = async (req, res) => {
-    // const id = req.param;
-    // console.log(req.param)
     const { id } = req.body;
-    // console.log('ID ' + id);
     let result = await userService.deleteUsers(id);
     if (result) {
         res.json({ success: true, message: 'Delete user successfully!' });
